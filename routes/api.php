@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Passport\Http\Controllers\AccessTokenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +20,16 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+// Route::middleware('auth:api')->group(function(){
+//     Route::get('usuario', [UsuarioController::class, 'index']);
+// });
 
-Route::resource('/usuario', UsuarioController::class);
+Route::post('login', [AccessTokenController::class, 'issueToken'])
+    ->middleware(['api-login', 'throttle']);
+
+Route::post('register', [RegisterUserController::class, 'register']);
+
+Route::resource('/usuario', UsuarioController::class)->except('index')->middleware('auth:api');
 
 Route::resource('/dispositivo', UsuarioController::class);
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuario;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
@@ -14,8 +14,8 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $data = Usuario::get();
-        return $data;
+        $data = User::find(1);
+        return $data->rol;
     }
 
     /**
@@ -45,7 +45,7 @@ class UsuarioController extends Controller
      * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function show(Usuario $usuario)
+    public function show(User $usuario)
     {
         //
     }
@@ -56,7 +56,7 @@ class UsuarioController extends Controller
      * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function edit(Usuario $usuario)
+    public function edit(User $usuario)
     {
         //
     }
@@ -68,7 +68,7 @@ class UsuarioController extends Controller
      * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Usuario $usuario)
+    public function update(Request $request, User $usuario)
     {
         //
     }
@@ -79,7 +79,7 @@ class UsuarioController extends Controller
      * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Usuario $usuario)
+    public function destroy(User $usuario)
     {
         //
     }
