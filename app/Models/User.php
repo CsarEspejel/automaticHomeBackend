@@ -13,7 +13,8 @@ class User extends Authenticatable
     use HasFactory, Notifiable, HasApiTokens;
 
     protected $table = "usuarios";
-    protected $primary_key = "idUsuario";
+    protected $primaryKey = "idUsuario";
+    protected $id = "idUsuario";
     public $timestamps = false;
 
     /**
@@ -48,4 +49,9 @@ class User extends Authenticatable
     // protected $casts = [
     //     'email_verified_at' => 'datetime',
     // ];
+
+    public function rol(){
+        return $this->hasOne(Rol::class, 'idRol');
+    }
+
 }

@@ -15,4 +15,8 @@ class Rol extends Model
     protected $fillable = [
         'nombre_rol'
     ];
+
+    public function Usuarios(){
+        return $this->belongsTo(User::class);
+    }
 }

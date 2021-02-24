@@ -20,13 +20,16 @@ use Laravel\Passport\Http\Controllers\AccessTokenController;
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+// Route::middleware('auth:api')->group(function(){
+//     Route::get('usuario', [UsuarioController::class, 'index']);
+// });
 
 Route::post('login', [AccessTokenController::class, 'issueToken'])
     ->middleware(['api-login', 'throttle']);
 
 Route::post('register', [RegisterUserController::class, 'register']);
 
-Route::resource('/usuario', UsuarioController::class);
+Route::resource('/usuario', UsuarioController::class)->except('index')->middleware('auth:api');
 
 Route::resource('/dispositivo', UsuarioController::class);
 
