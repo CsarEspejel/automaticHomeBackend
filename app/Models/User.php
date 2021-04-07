@@ -23,12 +23,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'roles_fk',
         'name',
         'email',
         'password',
         'phone',
-        'email_master',
+        'token',
     ];
 
     /**
@@ -38,7 +37,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        // 'remember_token',
+        'remember_token',
     ];
 
     /**
@@ -49,9 +48,5 @@ class User extends Authenticatable
     // protected $casts = [
     //     'email_verified_at' => 'datetime',
     // ];
-
-    public function rol(){
-        return $this->hasOne(Rol::class, 'idRol');
-    }
 
 }

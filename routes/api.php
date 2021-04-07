@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\DispositivoController;
+use App\Http\Controllers\InmuebleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
@@ -24,13 +26,15 @@ use Laravel\Passport\Http\Controllers\AccessTokenController;
 //     Route::get('usuario', [UsuarioController::class, 'index']);
 // });
 
-Route::post('login', [AccessTokenController::class, 'issueToken'])
-    ->middleware(['api-login', 'throttle']);
+// Route::post('login', [AccessTokenController::class, 'issueToken'])
+//     ->middleware(['api-login', 'throttle']);
+
+Route::post('login', [RegisterUserController::class, 'login']);
 
 Route::post('register', [RegisterUserController::class, 'register']);
 
-Route::resource('/usuario', UsuarioController::class)->except('index')->middleware('auth:api');
+Route::resource('/usuario', UsuarioController::class)->middleware('auth:api');
 
-Route::resource('/dispositivo', UsuarioController::class);
+Route::resource('/dispositivo', DispositivoController::class);
 
-Route::resource('/inmueble', UsuarioController::class);
+Route::resource('/inmueble', InmuebleController::class);

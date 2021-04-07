@@ -12,9 +12,11 @@ class InmuebleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $header = $request->header('Authorization');
+        return $header;
+        // $data = Inmuebles::all()->join('usuarios', '')
     }
 
     /**
