@@ -7,5 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Inmueble extends Model
 {
-    use HasFactory;
+    private $table = "inmuebles";
+    private $primaryKey = "idInmueble";
+    public $timestamps = false;
+
+    protected $fillable = [
+        'nombre_inmueble',
+        'direccion',
+        'idUsuario'
+    ];
+
+    public function usuario(){
+        return $this->hasOne(Usuario::class, "idUsuario");
+    }    
 }
