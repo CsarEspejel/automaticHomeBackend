@@ -29,12 +29,14 @@ use Laravel\Passport\Http\Controllers\AccessTokenController;
 // Route::post('login', [AccessTokenController::class, 'issueToken'])
 //     ->middleware(['api-login', 'throttle']);
 
+Route::post('register', [RegisterUserController::class, 'register']);
+
 Route::post('login', [RegisterUserController::class, 'login']);
 
-Route::post('register', [RegisterUserController::class, 'register']);
+Route::get('logout', [RegisterUserController::class, 'logout'])->middleware('auth:api');
 
 Route::resource('/usuario', UsuarioController::class)->middleware('auth:api');
 
-Route::resource('/dispositivo', DispositivoController::class);
+Route::resource('/dispositivo', DispositivoController::class)->middleware('auth:api');
 
-Route::resource('/inmueble', InmuebleController::class);
+Route::resource('/inmueble', InmuebleController::class)->middleware('auth:api');

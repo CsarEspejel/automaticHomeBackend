@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Inmueble extends Model
 {
-    private $table = "inmuebles";
-    private $primaryKey = "idInmueble";
+    protected $table = "inmuebles";
+    protected $primaryKey = "idInmueble";
+    protected $id = "idInmueble";
     public $timestamps = false;
 
     protected $fillable = [
@@ -17,7 +18,7 @@ class Inmueble extends Model
         'idUsuario'
     ];
 
-    public function usuario(){
-        return $this->hasOne(Usuario::class, "idUsuario");
+    public function Usuario(){
+        return $this->belongsTo(Usuario::class, "idUsuario");
     }    
 }

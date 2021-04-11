@@ -5,18 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Rol extends Model
+class Invitado extends Model
 {
-    use HasFactory;
-    protected $table = 'roles';
-    protected $primary_key = 'idRol';
+    protected $table = "invitado";
+    protected $primaryKey = "idInvitado";
     public $timestamps = false;
 
     protected $fillable = [
-        'nombre_rol'
+        "name_inv",
+        "username_inv",
+        "password",
+        "idUsuario"
     ];
 
-    public function Usuarios(){
+    public function Usuario(){
         return $this->belongsTo(User::class);
     }
 }
