@@ -49,7 +49,6 @@ class RegisterUserController extends Controller
 
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
-
         $token = $tokenResult->token;
         if ($request->remember_me)
             $token->expires_at = Carbon::now()->addWeeks(1);
@@ -58,7 +57,19 @@ class RegisterUserController extends Controller
         return response()->json([
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse($token->expires_at)->toDateTimeString()
+            'expires_at' => Carbon::parse($token->expires_at)->toDateTimeString(),
+        ]);
+    }
+
+    /**
+     * Cierre de sesión (anular el token)
+     */
+    public function logout(Request $request)
+    {
+        $user = $request->user()->token()->revoke();
+
+        return response()->json([
+            'message' => 'Successfully logged out'
         ]);
     }
 }

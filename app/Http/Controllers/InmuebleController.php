@@ -14,9 +14,13 @@ class InmuebleController extends Controller
      */
     public function index(Request $request)
     {
-        $header = $request->header('Authorization');
-        return $header;
-        // $data = Inmuebles::all()->join('usuarios', '')
+        $user = $request->user();
+        $inmuebles = Inmueble::all()->where('idUsuario', '=', $user->idUsuario);
+
+        return response()->json([
+            'usersazo' => $user,
+            'inmuebles' => $inmuebles
+        ]);
     }
 
     /**
@@ -26,7 +30,7 @@ class InmuebleController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -37,7 +41,20 @@ class InmuebleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre_inmueble' => 'required|string',
+            'direccion' => 'required|string'
+        ]);
+
+        Inmueble::create([
+            'nombre_inmueble' => $request->nombre_inmueble,
+            'direccion' => $request->direccion,
+            'idUsuario' => $request->idUsuario
+        ]);
+
+        return response()->json([
+            'success' => 'Inmueble creado con exito'
+        ], 200);
     }
 
     /**
@@ -80,8 +97,25 @@ class InmuebleController extends Controller
      * @param  \App\Models\Inmueble  $inmueble
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Inmueble $inmueble)
+    public function destroy(Request $request, Inmueble $inmueble)
     {
-        //
+        $inmu = Inmueble::findOrFail($inmueble->idInmueble);
+        $user = $request->user();
+        // return response()->json([
+        //     'inmu idusuario' => $inmu->idUsuario,
+        //     'user idusuario' => $user->idUsuario,
+        // ]);
+        if ($inmu->idUsuario === $user->idUsuario) {
+            $response = $inmu->delete();
+            if ($response === true) {
+                return response()->json([
+                    'success' => 'Se ha eliminado el inmueble con exito',
+                ]);
+            }else {
+                return response()->json([
+                    'success' => 'Ha habido un error, intenta de nuevo',
+                ]);
+            }
+        }
     }
 }
