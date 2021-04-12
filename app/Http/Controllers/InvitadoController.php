@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Invitado;
 use Illuminate\Http\Request;
 
-class UsuarioController extends Controller
+class InvitadoController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $header = $request->header('Authorization');
-        return $header;
+        //
     }
 
     /**
@@ -42,10 +41,10 @@ class UsuarioController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Usuario  $usuario
+     * @param  \App\Models\Invitado  $invitado
      * @return \Illuminate\Http\Response
      */
-    public function show(User $usuario)
+    public function show(Invitado $invitado)
     {
         //
     }
@@ -53,10 +52,10 @@ class UsuarioController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Usuario  $usuario
+     * @param  \App\Models\Invitado  $invitado
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $usuario)
+    public function edit(Invitado $invitado)
     {
         //
     }
@@ -65,10 +64,10 @@ class UsuarioController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Usuario  $usuario
+     * @param  \App\Models\Invitado  $invitado
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $usuario)
+    public function update(Request $request, Invitado $invitado)
     {
         //
     }
@@ -76,10 +75,10 @@ class UsuarioController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Usuario  $usuario
+     * @param  \App\Models\Invitado  $invitado
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $usuario)
+    public function destroy(Invitado $invitado)
     {
         //
     }
