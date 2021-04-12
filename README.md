@@ -34,19 +34,42 @@ Ejemplo: Si vas a realizar la funcionalidad de Dispositivos, va a crear la rama 
 	* Tener iniciado el servidor de Laravel y el servidor de XAMPP (o cualquiera que use para iniciar Apache y Mysql)
 * Procedimiento:
 	* Teniendo abierto Postman, en el apartado donde viene el método HTTP a utilizar selecciona "POST" y la dirección URL a utilizar será "localhost:8000/api/register", este enlace es para registrar un nuevo usuario, en el apartado de parametros se van a escribir los siguientes (anexo imagen):
-        * ![image](https://user-images.githubusercontent.com/18290558/109432392-849d6c80-79d0-11eb-97da-146beebeb389.png)
+        * ![image](https://user-images.githubusercontent.com/18290558/114449836-deca4980-9b9a-11eb-8d83-e0bff46107f1.png)
 
-		* "rol" sólo puede ser 1 (Para especificar un administrador) o 2 (Para especificar un invitado)
 		* "name, email y password" son obligatorios y pueden ser datos cualesquiera
-		* "phone" puede ser opcional (10 dígitos)
-		* "email_master" este parametro es opcional y se usa cuando el rol es de invitado, así especificando al usuario administrador al que pertenece, si se selecciona un rol de tipo administrador este campo se debe dejar vacío
-		* NOTA: para poder registrar un usuario la tabla de "roles" debe de contener los dos registros correspondientes, esto se puede hacer desde phpmyadmin (o tu gestor de base de datos), en una actualización se añadirá un Seeder para rellenar esta tabla automaticamente.
+		* "phone y token" pueden ser opcionales, el número de teléfono son 10 dígitos.
+
 		* NOTA 2: en todas las peticiones en la pestaña de "Headers" agregaremos uno nuevo el cual su key será "Accept" y su value será "application/json", esto para que las respuestas nos las devuelva en formato Json.
 
-	* Para la acción de iniciar sesión, igualmente dentro de postman especificamos un envío de tipo "POST" y la dirección a utilizar será "localhost:8000/api/login", nos movemos a la pestaña que dice "Body" y seleccionamos la opción de "form-data", las credenciales serán las siguientes (anexo imagen):
-        * ![image](https://user-images.githubusercontent.com/18290558/109432417-aac30c80-79d0-11eb-8f95-35761145a0be.png)
-		* "username" aquí se escribe el correo electrónico que se registró anteriormente
+	* Para la acción de iniciar sesión, igualmente dentro de postman especificamos un envío de tipo "POST" y la dirección a utilizar será "localhost:8000/api/login", nos movemos a la pestaña que dice "Body" y seleccionamos la opción de "form-data", las credenciales serán las siguientes:
+		* "email" aquí se escribe el correo electrónico que se registró anteriormente
 		* "password" aquí se escribe la contraseña
-	* A momento de que se inicia sesión en la respuesta de la petición se devuelven varios parametros dentro de los cuales se encuentra el Token (tiene por nombre Access Token) que se usará para acceder a las distintas partes del sistema (anexo imagen), para verificar su función podemos hacer lo siguiente:
-	    * ![image](https://user-images.githubusercontent.com/18290558/109432432-c8907180-79d0-11eb-9d6d-193956e13250.png)
-		* Estando en la aplicación Postman especificamos el envío de tipo "GET" y la dirección url a utilizar será "http://localhost:8000/api/usuario" y enviar la petición, si todo va bien veremos como respuesta la palabra "unauthorized", para cambiar esto nos moveremos a la pestaña "Authorization", en el tipo selecciona "Bearer Token" y en el campo introduciremos el token que nos devolvío la petición de Inicio de Sesión y volvemos a enviar la petición, de modo que ahora estamos autenticados y nos deverá de devolver la información de los usuarios registrados.
+	* A momento de que se inicia sesión en la respuesta de la petición se devuelven varios parametros dentro de los cuales se encuentra el Token (tiene por nombre Access Token) que se usará para acceder a las distintas partes del sistema (anexo imagen):
+	    * ![image](https://user-images.githubusercontent.com/18290558/114448898-c0178300-9b99-11eb-80f3-7ee62e974059.png)
+
+## Probar la API para la funcionalidad de inmuebles
+
+* Requisitos
+	* Haber iniciado sesión previamente con tu email y contraseña
+	* Tener el token generado al momento de iniciar sesión
+* Procedimiento
+	* Obtener Inmuebles:
+
+		* Estando en la aplicación Postman especificamos el envío de tipo **GET** y la dirección url a utilizar será **"http://localhost:8000/api/inmueble"**. Nos ubicaremos en la pestaña de "Headers o Cabeceras", crearemos una nueva, en la columna *KEY* escribiremos la palabra **Authorization** y en la columna *VALUE* escribiremos la palabra **Bearer**, un espacio y pegaremos el token que obtuvimos al iniciar sesión "Bearer (token)" **(Anexo imagen)**. Al enviar la petición obtendremos como respuesta un JSON con los inmuebles asociados al usuario.
+		* NOTA: Si envías la petición sin haber puesto el token, te devolvera una respuesta de **Unauthorized**
+		*  ![image](https://user-images.githubusercontent.com/18290558/114449058-f2c17b80-9b99-11eb-884d-848629f17b06.png)
+	
+    * Crear un nuevo inmueble
+    	* El tipo de envío que utilizaremos será **POST** y la dirección url a utilizar será **"localhost:8000/api/inmueble"**. Aquí vamos a utilizar 3 parametros los cuales son:
+    		* nombre_inmueble
+    		* direccion
+    		* idUsuario
+    		* token
+    	* Los 3 primeros los enviaremos a través de la pestaña *Params*, en la columna *KEY* escribiremos el nombre de cada parametro en una fila cada uno, en la columna *VALUE* el valor correspondiente a cada parametro, **OJO**: el parametro de idUsuario debe de ser el ID de un usuario existente en la base de datos. El parametro de **token** se enviará de la misma forma que en la petición de *Obtener Inmuebles* (Anexo imagen). Al enviar la petición nos devolverá como respuesta un JSON con un SUCCESS y el mensaje de Creado con éxito.
+    	* ![image](https://user-images.githubusercontent.com/18290558/114449267-2b615500-9b9a-11eb-8c78-5e913530dc41.png)
+
+     * Eliminar un inmueble
+
+     	* El tipo de envío que utilizaremos será **DELETE** y la dirección url a utilizar será **"localhost:8000/api/inmueble/{id}"**. En esta petición de igual manera se utilizará el **token** el cual se va a enviar como *Header* al igual que en las peticiones anteriores. En esta petición el único parametro que enviaremos será el ID del inmueble que queremos eliminar, pero este se enviará directamente en la URL **(Anexo imagen)**.
+     	* ![image](https://user-images.githubusercontent.com/18290558/114449382-4a5fe700-9b9a-11eb-8bcd-b70b7b2e89c1.png)
+
