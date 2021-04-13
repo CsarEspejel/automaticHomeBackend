@@ -36,8 +36,8 @@ Ejemplo: Si vas a realizar la funcionalidad de Dispositivos, va a crear la rama 
 	* Teniendo abierto Postman, en el apartado donde viene el método HTTP a utilizar selecciona "POST" y la dirección URL a utilizar será "localhost:8000/api/register", este enlace es para registrar un nuevo usuario, en el apartado de parametros se van a escribir los siguientes (anexo imagen):
         * ![image](https://user-images.githubusercontent.com/18290558/114481188-ae4dd400-9bc9-11eb-8416-619663d9ed1b.png)
 
-		* "name, email y password" son obligatorios y pueden ser datos cualesquiera
-		* "phone y token" pueden ser opcionales, el número de teléfono son 10 dígitos.
+		* "rol, name, email y password" son obligatorios y pueden ser datos cualesquiera
+		* "phone y email_master" pueden ser opcionales, el número de teléfono son 10 dígitos.
 
 		* NOTA 2: en todas las peticiones en la pestaña de "Headers" agregaremos uno nuevo el cual su key será "Accept" y su value será "application/json", esto para que las respuestas nos las devuelva en formato Json.
 
