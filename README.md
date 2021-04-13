@@ -34,7 +34,7 @@ Ejemplo: Si vas a realizar la funcionalidad de Dispositivos, va a crear la rama 
 	* Tener iniciado el servidor de Laravel y el servidor de XAMPP (o cualquiera que use para iniciar Apache y Mysql)
 * Procedimiento:
 	* Teniendo abierto Postman, en el apartado donde viene el método HTTP a utilizar selecciona "POST" y la dirección URL a utilizar será "localhost:8000/api/register", este enlace es para registrar un nuevo usuario, en el apartado de parametros se van a escribir los siguientes (anexo imagen):
-        * ![image](https://user-images.githubusercontent.com/18290558/114449836-deca4980-9b9a-11eb-8d83-e0bff46107f1.png)
+        * ![image](https://user-images.githubusercontent.com/18290558/114481188-ae4dd400-9bc9-11eb-8416-619663d9ed1b.png)
 
 		* "name, email y password" son obligatorios y pueden ser datos cualesquiera
 		* "phone y token" pueden ser opcionales, el número de teléfono son 10 dígitos.
