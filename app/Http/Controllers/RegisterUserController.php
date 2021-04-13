@@ -18,13 +18,15 @@ class RegisterUserController extends Controller
             'name' => 'required|min:4',
             'email' => 'required|email',
             'password' => 'required|min:8',
+            'phone' => 'min:10'
         ]);
         $user = User::create([
+            'roles_fk' => $request->rol,
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'phone' => $request->phone,
-            'token' => $request->email_master,
+            'email_master' => $request->email_master,
         ]);
 
         return response()->json(['success' => 'Usuario creado con éxito'], 200);

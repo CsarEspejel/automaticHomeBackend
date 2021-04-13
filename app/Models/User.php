@@ -23,11 +23,12 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'roles_fk',
         'name',
         'email',
         'password',
         'phone',
-        'token',
+        'email_master',
     ];
 
     /**
@@ -48,9 +49,5 @@ class User extends Authenticatable
     // protected $casts = [
     //     'email_verified_at' => 'datetime',
     // ];
-
-    public function Invitados(){
-        return $this->hasMany(Invitado::class);
-    }
 
 }

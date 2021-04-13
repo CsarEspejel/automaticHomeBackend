@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inmueble;
+use App\Models\UsuarioInmueble as Usin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InmuebleController extends Controller
 {
@@ -15,7 +17,12 @@ class InmuebleController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $inmuebles = Inmueble::all()->where('idUsuario', '=', $user->idUsuario);
+        $inmuebles = DB::table('usuarios_has_inmuebles')
+                        ->join('inmuebles', 'inmuebles.idInmueble', '=', 'usuarios_has_inmuebles.inmuebles_idInmueble')
+                        // ->join('usuarios', 'usuarios.idUsuario', '=', 'usuarios_has_inmuebles.usuarios_idUsuario')
+                        ->where('usuarios_has_inmuebles.usuarios_idUsuario', $user->idUsuario)
+                        ->select('inmuebles.idInmueble', 'inmuebles.nombre_inmueble', 'inmuebles.direccion')
+                        ->get();
 
         return response()->json([
             'usersazo' => $user,
@@ -41,15 +48,20 @@ class InmuebleController extends Controller
      */
     public function store(Request $request)
     {
+        $user = $request->user();
         $request->validate([
             'nombre_inmueble' => 'required|string',
             'direccion' => 'required|string'
         ]);
 
-        Inmueble::create([
+        $inmueble = Inmueble::create([
             'nombre_inmueble' => $request->nombre_inmueble,
             'direccion' => $request->direccion,
-            'idUsuario' => $request->idUsuario
+        ]);
+
+        Usin::create([
+            'usuarios_idUsuario' => $user->idUsuario,
+            'inmuebles_idInmueble' => $inmueble->idInmueble
         ]);
 
         return response()->json([
@@ -99,23 +111,28 @@ class InmuebleController extends Controller
      */
     public function destroy(Request $request, Inmueble $inmueble)
     {
+        //Encuentra el inmueble por su ID y retorna la informacion del mismo
         $inmu = Inmueble::findOrFail($inmueble->idInmueble);
         $user = $request->user();
-        // return response()->json([
-        //     'inmu idusuario' => $inmu->idUsuario,
-        //     'user idusuario' => $user->idUsuario,
-        // ]);
-        if ($inmu->idUsuario === $user->idUsuario) {
-            $response = $inmu->delete();
-            if ($response === true) {
-                return response()->json([
-                    'success' => 'Se ha eliminado el inmueble con exito',
-                ]);
-            }else {
-                return response()->json([
-                    'success' => 'Ha habido un error, intenta de nuevo',
-                ]);
-            }
+        
+        // Elimina el registro de la tabla rompimiento entre usuarios e inmuebles
+        $response1 = Usin::select('id_UI')
+                    ->where('inmuebles_idInmueble', $inmu->idInmueble)
+                    ->where('usuarios_idUsuario', $user->idUsuario)
+                    ->delete();
+
+        // Elimina el inmueble de la tabla de inmuebles
+        $response = $inmu->delete();
+        
+        if ($response and $response1) {
+            return response()->json([
+                'success' => 'Se ha eliminado el inmueble con exito',
+            ]);
+        }else {
+            return response()->json([
+                'success' => 'Ha habido un error, intenta de nuevo',
+            ]);
         }
+        
     }
 }
