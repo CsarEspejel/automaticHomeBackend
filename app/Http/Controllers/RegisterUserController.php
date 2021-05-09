@@ -26,7 +26,7 @@ class RegisterUserController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'phone' => $request->phone,
-            'email_master' => $request->email_master,
+            'token' => $request->token,
         ]);
 
         return response()->json(['success' => 'Usuario creado con éxito'], 200);
