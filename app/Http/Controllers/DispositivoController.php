@@ -24,10 +24,7 @@ class DispositivoController extends Controller
                         ->select('dispositivos.idDispositivo', 'dispositivos.nombre_dispositivo', 'dispositivos.descripcion')
                         ->get();
 
-        return response()->json([
-            'usersazo' => $user,
-            'dispositivo' => $dispositivo
-        ]);
+        return response()->json(['data' => $dispositivo]);
     }
 
     /**

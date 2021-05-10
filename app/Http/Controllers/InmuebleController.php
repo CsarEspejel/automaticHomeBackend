@@ -24,10 +24,7 @@ class InmuebleController extends Controller
                         ->select('inmuebles.idInmueble', 'inmuebles.nombre_inmueble', 'inmuebles.direccion')
                         ->get();
 
-        return response()->json([
-            'usersazo' => $user,
-            'inmuebles' => $inmuebles
-        ]);
+        return response()->json(['data' => $inmuebles]);
     }
 
     /**
